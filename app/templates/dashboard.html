@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset=UTF-8>
+    <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no">
+    <meta name=format-detection content="telephone=no">
+    <title>我的信息 - 黄龙物联 Huangloong IoT</title>
+    <!-- begin REM Zoom 计算 -->
+    <script type="text/javascript">
+        (function (win) {
+            var remCalc = {};
+            var docEl = win.document.documentElement,
+                tid,
+                hasRem = false,
+                hasZoom = true,
+                zoomRuler = 'width',
+                designWidth = 750,
+                designHeight = 1206;
+
+            function refresh() {
+                var width = docEl.clientWidth;
+                var height = docEl.clientHeight;
+                if (width > 768) {
+                    width = 768
+                }
+                if (hasRem) {
+                    var rem = width / 10;
+                    docEl.style.fontSize = rem + "px";
+                    remCalc.rem = rem;
+                    var actualSize = parseFloat(window.getComputedStyle(document.documentElement)["font-size"]);
+                    if (actualSize !== rem && actualSize > 0 && Math.abs(actualSize - rem) > 1) {
+                        var remScaled = rem * rem / actualSize;
+                        docEl.style.fontSize = remScaled + "px"
+                    }
+                }
+                if (hasZoom) {
+                    var style = document.getElementById('J__style')
+                    if (!style) {
+                        style = document.createElement('style')
+                        style.id = 'J__style'
+                    }
+                    if (zoomRuler === 'height') {
+                        style.innerHTML = '.__z{zoom:' + height / designHeight + '}'
+                    } else {
+                        style.innerHTML = '.__z{zoom:' + width / designWidth + '}'
+                    }
+                    document.getElementsByTagName('head')[0].appendChild(style)
+                }
+            }
+
+            function dbcRefresh() {
+                clearTimeout(tid);
+                tid = setTimeout(refresh, 100)
+            }
+
+            win.addEventListener("resize", function () {
+                dbcRefresh()
+            }, false);
+
+            win.addEventListener("pageshow", function (e) {
+                if (e.persisted) {
+                    dbcRefresh()
+                }
+            }, false);
+            refresh();
+            if (hasRem) {
+                remCalc.refresh = refresh;
+                remCalc.rem2px = function (d) {
+                    var val = parseFloat(d) * this.rem;
+                    if (typeof d === "string" && d.match(/rem$/)) {
+                        val += "px"
+                    }
+                    return val
+                };
+                remCalc.px2rem = function (d) {
+                    var val = parseFloat(d) / this.rem;
+                    if (typeof d === "string" && d.match(/px$/)) {
+                        val += "rem"
+                    }
+                    return val
+                };
+                win.remCalc = remCalc
+            }
+        })(window);
+
+    </script>
+    <!-- end REM Zoom 计算 -->
+    <link href="{{ url_for('static', filename='css/theme.3b0f8c.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dashboard.db5471.css') }}" rel="stylesheet">
+</head>
+<body>
+<div id=o2_loading class=loading>
+    <div class=inner><i class=before></i> <i class=after></i></div>
+    <div class=text>loading</div>
+</div>
+<div class="full-height vertical-center-items padding-all-small">
+    <div class="box full-width">
+        <div class="portion whole">
+            <div class="avatar horizontal-center-this" style=background-image:url({{ user.head_pic }})></div>
+        </div>
+        <div class="portion whole text-center margin-top-tiny">
+            <input type="text" placeholder="请输入车牌号" id="car-num" class=ff-input name=plate  value="{{ user.car_num if user.car_num }}">
+        </div>
+        <div class="portion whole text-center margin-top-tiny">
+            <input type="text" placeholder="手机号" id="phone-num" class=ff-input name=phone value="{{ user.phone if user.phone }}" >
+        </div>
+        <div class="portion whole text-center margin-top-small">
+            <a class="ff-button shape-curved bordered">
+                <span id="btn" class="">更新信息</span>
+            </a>
+        </div>
+        <div class="portion whole margin-top-small text-center">
+            <h4 class=hide-on-mobile>我的二维码</h4>
+            <h6 class=show-only-on-mobile>我的二维码</h6>
+        </div>
+        <div class="portion whole">
+            <img src={{ user.qrcodes[0].qr_path if user and user.qrcodes.first() }} alt=""  width="200px" height="200px" class=horizontal-center-this></div>
+        </div>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../static/js/layer.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#btn').click(function (event) {
+            re = /^1\d{10}$/;
+            var carNum = document.getElementById("car-num").value;
+            var phoneNum = document.getElementById("phone-num").value;
+            var carNumEle = document.getElementById("car-num");
+            var phoneNumEle = document.getElementById("phone-num");
+            if (carNum.trim() === "" || carNum.trim() === null) {
+                layer.msg('车牌号为空', {
+                    icon: 0,
+                    time: 1000
+                });
+                return carNumEle.focus();
+            }
+            if (phoneNum.trim() === "" || phoneNum.trim() === null) {
+                layer.msg('手机号为空', {
+                    icon: 0,
+                    time: 1000
+                });
+                return phoneNumEle.focus();
+            } else if (!re.test(phoneNum)) {
+                layer.msg('请输入正确的手机号', {
+                    icon: 0,
+                    time: 1000
+                });
+                return phoneNumEle.focus();
+            }
+
+            layer.confirm('是否更新?', {
+                    icon: 3,
+                    btn: ['是', '否'] //按钮
+                }, function () {
+                    $.ajax({
+                        type: "POST",
+                        data: {car_num: carNum, phone_num: phoneNum},
+                        url: "{{ url_for('api.update_user') }}",
+                        cache: false,
+                        dataType: "html",
+
+                        success: function (msg) {
+                            layer.msg(msg, {
+                                icon: 1,
+                                time: 1000
+                            });
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            layer.msg(XMLHttpRequest.status + "\n" + errorThrown + "\n" + textStatus, {
+                                icon: 2,
+                                time: 1000
+                            });
+                        }
+                    })
+                }, function () {
+                    layer.msg('已取消', {
+                        icon: 2,
+                        time: 1000
+                    });
+                }
+            );
+        });
+    });
+
+</script>
+<script type="text/javascript" src="../static/js/manifest.9388d0.js"></script>
+<script type="text/javascript" src="../static/js/vendor.d35444.js"></script>
+<script type="text/javascript" src="../static/js/theme.3b0f8c.js"></script>
+<script type="text/javascript" src="../static/js/dashboard.db5471.js"></script>
+</body>
+</html>

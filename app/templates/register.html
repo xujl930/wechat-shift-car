@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset=UTF-8>
+    <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no">
+    <meta name=format-detection content="telephone=no">
+    <title>注册 - 黄龙物联 Huangloong IoT</title>
+    <!-- begin REM Zoom 计算 -->
+    <script type="text/javascript">
+        (function (win) {
+            var remCalc = {};
+            var docEl = win.document.documentElement,
+                tid,
+                hasRem = false,
+                hasZoom = true,
+                zoomRuler = 'width',
+                designWidth = 750,
+                designHeight = 1206;
+
+            function refresh() {
+                var width = docEl.clientWidth;
+                var height = docEl.clientHeight;
+                if (width > 768) {
+                    width = 768
+                }
+                if (hasRem) {
+                    var rem = width / 10;
+                    docEl.style.fontSize = rem + "px";
+                    remCalc.rem = rem;
+                    var actualSize = parseFloat(window.getComputedStyle(document.documentElement)["font-size"]);
+                    if (actualSize !== rem && actualSize > 0 && Math.abs(actualSize - rem) > 1) {
+                        var remScaled = rem * rem / actualSize;
+                        docEl.style.fontSize = remScaled + "px"
+                    }
+                }
+                if (hasZoom) {
+                    var style = document.getElementById('J__style')
+                    if (!style) {
+                        style = document.createElement('style')
+                        style.id = 'J__style'
+                    }
+                    if (zoomRuler === 'height') {
+                        style.innerHTML = '.__z{zoom:' + height / designHeight + '}'
+                    } else {
+                        style.innerHTML = '.__z{zoom:' + width / designWidth + '}'
+                    }
+                    document.getElementsByTagName('head')[0].appendChild(style)
+                }
+            }
+
+            function dbcRefresh() {
+                clearTimeout(tid);
+                tid = setTimeout(refresh, 100)
+            }
+
+            win.addEventListener("resize", function () {
+                dbcRefresh()
+            }, false);
+
+            win.addEventListener("pageshow", function (e) {
+                if (e.persisted) {
+                    dbcRefresh()
+                }
+            }, false);
+            refresh();
+            if (hasRem) {
+                remCalc.refresh = refresh;
+                remCalc.rem2px = function (d) {
+                    var val = parseFloat(d) * this.rem;
+                    if (typeof d === "string" && d.match(/rem$/)) {
+                        val += "px"
+                    }
+                    return val
+                };
+                remCalc.px2rem = function (d) {
+                    var val = parseFloat(d) / this.rem;
+                    if (typeof d === "string" && d.match(/px$/)) {
+                        val += "rem"
+                    }
+                    return val
+                };
+                win.remCalc = remCalc
+            }
+        })(window);
+
+    </script>
+    <!-- end REM Zoom 计算 -->
+    <link href="{{ url_for('static', filename='css/theme.3b0f8c.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/register.0d071d.css') }}" rel="stylesheet">
+</head>
+<body>
+<div id=o2_loading class=loading>
+    <div class=inner><i class=before></i> <i class=after></i></div>
+    <div class=text>loading</div>
+</div>
+<div class="full-height vertical-center-items padding-all-small">
+    <form id="id_register" method="post" action="{{ url_for('page.register') }}">
+        <div class="box full-width">
+            <div class="portion whole text-center"><h2 class="text-hue hide-on-mobile margin-top-small">新用户注册</h2> <h5
+                    class="text-hue show-only-on-mobile">新用户注册</h5></div>
+            <div class="portion whole margin-top-large">
+                <div class="row lesser-gaps">
+                    <div class="portion whole">
+                        <input type=text id="phone-num" class=ff-input
+                               name=cellphone placeholder="请输入手机号" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="portion whole">
+                <div class="row lesser-gaps">
+                    <div class="portion three-fourths three-fifths-on-mobile">
+                        <input type=text id="code-num" class=ff-input name=code placeholder="验证码" >
+                    </div>
+                    <div class="portion one-fourth two-fifths-on-mobile">
+                    <span >
+                        <input id="btn" class="ff-button shape-rounded bg-blue shadow-hard pull-right" type="button" disabled="disabled" value="发送验证码">
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="portion whole text-center margin-top-medium">
+                <div class=ff-checkbox><input type=checkbox checked=checked id=toggle-1/> <label class=ff-checkbox-label
+                                                                                                 for=toggle-1></label>
+                    <label class=ff-checkbox-label for=toggle-1>同意 <a href=#modal01>许可协议</a></label></div>
+            </div>
+            <div class="portion whole margin-top-small">
+                <div class=row>
+                    <div class="portion whole text-center">
+                        <input id="subBtn" class="ff-button shape-curved bordered" type="button" value="注册"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<div id=modal01 class=ff-modal>
+    <div class="row margin-top-small">
+        <div class="portion one-third"></div>
+        <div class="portion one-third">
+            <div class="ff-modal-box card bg-white shape-rounded shadow-soft"><h5 class=margin-bottom-tiny>用户许可协议</h5>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p>
+                <p>blah, blah, blah</p> <a href=#close>OK</a></div>
+        </div>
+        <div class="portion one-third"></div>
+    </div>
+</div>
+<script type="text/javascript" src="../static/js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../static/js/layer.js"></script>
+
+<!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script-->
+<script type="text/javascript" src="../static/js/jquery.cookie.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        if($.cookie("total")!==undefined&&$.cookie("total")!=='NaN'&&$.cookie("total")!=='null'){//cookie存在倒计时
+
+            timekeeping();
+
+        }else{//cookie 没有倒计时
+
+            $('#btn').attr("disabled", false);
+        }
+
+        function timekeeping(){
+            //把按钮设置为不可以点击
+            $('#btn').attr("disabled", true);
+            var interval=setInterval(function(){//每秒读取一次cookie
+              //从cookie 中读取剩余倒计时
+              total=$.cookie("total");
+              //在发送按钮显示剩余倒计时
+              $('#btn').val('请等待'+total+'秒');
+              //把剩余总倒计时减掉1
+              total--;
+
+              if(total<=0){//剩余倒计时为零，则显示 重新发送，可点击
+              //清除定时器
+              clearInterval(interval);
+              //删除cookie
+              total=$.cookie("total",total, { expires: -1 });
+
+              //显示重新发送
+              $('#btn').val('重新发送');
+              //把发送按钮设置为可点击
+              $('#btn').attr("disabled", false);
+              }else{//剩余倒计时不为零
+
+              //重新写入总倒计时
+              $.cookie("total",total);
+              }
+            },1000);
+        }
+
+        //绑定发送按钮
+         $('#btn').click(function(event) {
+            /* Act on the event */
+            //校验手机号码
+            if(!check_phone()){
+                return this;
+            }
+            var phone = $('#phone-num').val();
+
+            $.ajax({
+                url: "{{ url_for('api.get_code') }}",
+                type: "POST",
+                data: {phone: phone},
+                cache: false,
+                dataType: "html"
+            })
+
+            .done(function(re) {
+                var str="验证码发送成功，请注意查看您的手机";
+                if(re==='000000'){
+                   $.cookie("total",30);
+                   timekeeping();
+                }else{
+                    switch(re) {
+                      //case '000000':
+                        //str="发送成功";
+                        //break;
+
+                      case '105105':
+                        str="账户余额不足";
+                        break;
+
+                      case '105107':
+                        str="号码黑名单";
+                        break;
+
+                      case '105100':
+                        str="系统错误";
+                        break;
+
+                      case '105106':
+                        str="接收短信的手机号码为空";
+                        break;
+
+                      case '105147':
+                        str="对同个号码的发送频率超过限制";
+                        break;
+
+                      case '160040':
+                        str="验证码超出发送上限";
+                        break;
+
+                      case '105102':
+                        str="号码格式有误";
+                        break;
+
+                      default:
+                        str="发送验证码失败";
+                        break;
+                    }
+                }
+
+                 layer.open({
+                        content: str,
+                        //time: 1000,
+                        closeBtn: 0
+                    });
+        })
+
+        .fail(function() {
+          console.log("error");
+        })
+
+        .always(function() {
+          console.log("complete");
+        });
+
+        });
+
+        // 绑定注册表单按钮
+        $('#subBtn').click(function () {
+            // 校验手机号和验证码
+            if(check_phone()){
+                if(!check_code()){
+                    return this;
+                }
+            }else
+                return this;
+
+            $('#id_register').submit();
+            //$.cookie('total', 'null')
+        });
+
+        function check_phone() {
+            //phone=$('#phone-num').val();
+            var phoneEle = document.getElementById('phone-num');
+            var phone = phoneEle.value;
+            var pre=/^[1][3578][0-9]{9}$/;
+            if(phone===''){
+                layer.msg('手机号码不能为空', {
+                    icon: 0,
+                    time: 1000
+                });
+                return phoneEle.focus();
+            }else{
+                if(!pre.test(phone)){
+                    layer.msg('手机号码格式有误', {
+                    icon: 0,
+                    time: 1000
+                });
+                return phoneEle.focus();
+                }else {
+                    return true;
+                }
+            }
+        }
+
+        function check_code() {
+            var codeEle = document.getElementById('code-num');
+            var code = codeEle.value;
+            var pre = /^\d{4}$/;
+            if(code===""){
+                layer.msg('验证码不能为空', {
+                    icon: 0,
+                    time: 1000
+                });
+                return codeEle.focus();
+            }else if(!pre.test(code)){
+                layer.msg('验证码格式有误', {
+                    icon: 0,
+                    time: 1000
+                });
+                return codeEle.focus();
+            }else {
+                return true;
+            }
+        }
+    });
+
+</script>
+<script type="text/javascript" src="../static/js/manifest.9388d0.js"></script>
+<script type="text/javascript" src="../static/js/vendor.d35444.js"></script>
+<script type="text/javascript" src="../static/js/theme.3b0f8c.js"></script>
+<script type="text/javascript" src="../static/js/register.0d071d.js"></script>
+</body>
+</html>
